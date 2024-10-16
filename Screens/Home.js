@@ -38,9 +38,7 @@ export default function Home() {
                
 
 
-
-    
-
+                
 
                 </ImageBackground>
             </View>
