@@ -1,11 +1,13 @@
-import { Text, View } from "react-native";
-
+import { ImageBackground, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet } from "react-native";
+import { ScreenHeight, ScreenWidth } from "@rneui/base";
+import { Text } from "@rneui/base";
 
 export default function Home() {
 
     const date = new Date();
     const hours = date.getHours();
-    const minutes = date.getMinutes();
     
     const getRandomGreeting = () => {
         const greetings = [
@@ -27,11 +29,32 @@ export default function Home() {
     }
 
     return (
-        <View>
+            <View>
+                <ImageBackground 
+                    source={require('../assets/bg.png')} 
+                    style={styles.backGroundImage}>
 
-            {hours < 12 ? (<Text>Good morning!</Text>) : <Text>{getRandomGreeting()}</Text>}
+                {hours < 12 ? (<Text h3 h3Style={{ color: 'white'}}>Good morning!</Text>) : <Text h3 h3Style={{ color: 'white'}}>{getRandomGreeting()}</Text>}
+               
 
-        </View>
+
+
+    
+
+
+                </ImageBackground>
+            </View>
     );
 
 }
+
+const styles = StyleSheet.create({
+    backGroundImage: {
+        width: ScreenWidth, 
+        height: ScreenHeight,
+        resizeMode: 'cover',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+})
+

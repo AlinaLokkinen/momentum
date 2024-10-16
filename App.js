@@ -20,7 +20,7 @@ export default function App() {
       <NavigationContainer theme={theme}>
         <Drawer.Navigator>
 
-          <Drawer.Screen name='Home' component={Home} />
+          <Drawer.Screen name='Momentum' component={Home} />
           <Drawer.Screen name='Exercises' component={Exercises} />
           <Drawer.Screen name='Workout Journal' component={WorkoutJournal} />
           <Drawer.Screen name='Calendar' component={Calendar} />
