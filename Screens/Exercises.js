@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { Input, FAB, Text, LinearProgress, Image, Button } from "@rneui/themed";
+import { Input, FAB, Text, LinearProgress, Image, Button, Dialog } from "@rneui/themed";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { FlatList } from "react-native-gesture-handler";
 
@@ -12,6 +12,7 @@ export default function Exercises() {
     const [exercises, setExercises] = useState([]);
     const [value, setValue] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [visible, setVisible] = useState(false);
 
     const setSearchUrl = () => {
         setLoading(true);
@@ -64,8 +65,19 @@ export default function Exercises() {
         .finally(() => setLoading(false));
     }
 
+    const showInstructions = () => {
+        setVisible(true);
+    }
+
+    const closeDialog = () => {
+        setVisible(false);
+    }
+
     return (
         <View>
+
+            <Text style={{margin: 15}}>Search for exercises by muscle group, equipment type or exercise name.</Text>
+
             <Dropdown 
                 style={styles.dropdown}
                 placeholderStyle={styles.placeholderStyle}
@@ -118,12 +130,24 @@ export default function Exercises() {
                                             source={{uri: item.gifUrl}}
                                             PlaceholderContent={ <ActivityIndicator size='small' color='purple' />}
                                         />
+                                        
                                         <FAB 
                                             title='See instructions'
                                             style={{marginTop: 15}}
                                             size="small"
                                             color="#782E8A"
+                                            onPress={() => showInstructions()}
                                             />
+
+                                        <Dialog 
+                                            isVisible={visible}
+                                            onBackdropPress={closeDialog}>
+                                                <Dialog.Title title={item.name.charAt(0).toUpperCase() + item.name.slice(1)} />
+                                                {item.instructions.map((instruction, index) => (
+                                                    <Text key={index} style={{margin: 5}}>{instruction}</Text>
+                                                ))}
+                                                <Text style={{marginTop: 15, fontWeight: 'bold'}}>Close the instruction by pressing outside of this box.</Text>
+                                        </Dialog>
                                     </View>
                                 )}
                             />
