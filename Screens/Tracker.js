@@ -1,5 +1,87 @@
+import { Text } from "@rneui/base";
+import { FAB, Input } from "@rneui/themed";
+import { useEffect, useState } from "react";
+import { Alert, View } from "react-native";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { app2 } from "../firebaseConfig";
+import { getDatabase, ref, push, onValue } from "firebase/database";
+import { LineChart } from "react-native-chart-kit";
+import { FlatList } from "react-native-gesture-handler";
 
+const database = getDatabase(app2);
 
 export default function Tracker() {
+
+    const dateToday = new Date().toLocaleDateString();
+
+    const [data, setData] = useState({
+        weight: 0.0,
+        date: dateToday
+    });
+
+    const [weightData, setWeightData] = useState([]);
+
+    useEffect(() => {
+        const itemsRef = ref(database, 'weight/');
+        onValue(itemsRef, (snapshot) => {
+            const d = snapshot.val();
+            if (d) {
+                setWeightData(Object.values(d));
+            } else {
+                setWeightData([]);
+            }
+        })
+    }, []);
+
+
+    const saveWeight = () => {
+        if (data.weight) {
+            push(ref(database, 'weight/'), data);
+        } else {
+            Alert.alert('Error', 'Please input weight');
+        }
+    }
+
+   const deleteWeight = () => {
+    
+   }
+
+    return (
+
+        <View>
+
+            <Text>Track your weight progression here. </Text>
+
+            <Input 
+                placeholder="Enter today's weight"
+                leftIcon={
+                    <Ionicons name='scale-outline' />
+                }
+                onChangeText={(number) => setData({...data, weight: parseFloat(number)})}
+            />
+
+            <FAB 
+                color="#782E8A"
+                size="small"
+                title="Save"
+                onPress={() => saveWeight()}
+            />
+
+            
+
+            <FlatList 
+                data={weightData}
+                renderItem={({item}) => 
+                    <View style={{margin: 15}}>
+                        <Text>{item.date}</Text>
+                        <Text>{item.weight}</Text>
+                        <Text>Delete</Text>
+                    </View>
+                }
+            />
+
+        </View>
+
+    )
     
 }

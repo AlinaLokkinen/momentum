@@ -1,7 +1,18 @@
 import { Text } from "@rneui/base"
+import { useState } from "react";
+import { View } from "react-native";
 
-export default function WorkoutJournal({navigation}) {
+export default function WorkoutJournal() {
+
+    const [workout, setWorkout] = useState([]);
+    const [exercise, setExercise] = useState('');
+
     return (
-        <Text>Welcome!</Text>
+        <View>
+            <Text>Add your completed exercise here.</Text>
+
+            
+
+        </View>
     )
 }

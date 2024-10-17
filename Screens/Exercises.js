@@ -124,13 +124,13 @@ export default function Exercises() {
                                 data={exercises}
                                 renderItem={({item}) => (
                                     <View style={styles.flatlistitem}>
-                                        <Text h4>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</Text>
+                                        <Text h4 style={{marginBottom: 15}}>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</Text>
                                         <Image 
                                             style={styles.gif}
                                             source={{uri: item.gifUrl}}
                                             PlaceholderContent={ <ActivityIndicator size='small' color='purple' />}
                                         />
-                                        
+
                                         <FAB 
                                             title='See instructions'
                                             style={{marginTop: 15}}
