@@ -1,10 +1,10 @@
 import { Text } from "@rneui/base";
-import { FAB, Input } from "@rneui/themed";
+import { FAB, Input, Button } from "@rneui/themed";
 import { useEffect, useState } from "react";
 import { Alert, View } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { app2 } from "../firebaseConfig";
-import { getDatabase, ref, push, onValue } from "firebase/database";
+import { getDatabase, ref, push, onValue, remove } from "firebase/database";
 import { LineChart } from "react-native-chart-kit";
 import { FlatList } from "react-native-gesture-handler";
 
@@ -42,9 +42,9 @@ export default function Tracker() {
         }
     }
 
-   const deleteWeight = () => {
-    
-   }
+//    const deleteWeight = (key) => {
+//         remove(ref(database, `weight/${key}`));
+//    }    
 
     return (
 
@@ -73,9 +73,10 @@ export default function Tracker() {
                 data={weightData}
                 renderItem={({item}) => 
                     <View style={{margin: 15}}>
+                        <Text>{item.id}</Text>
                         <Text>{item.date}</Text>
                         <Text>{item.weight}</Text>
-                        <Text>Delete</Text>
+                        <Button onPress={() => deleteWeight(item.key)}>Delete</Button>
                     </View>
                 }
             />
