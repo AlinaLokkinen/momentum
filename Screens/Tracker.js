@@ -5,7 +5,6 @@ import { Alert, View } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { app2 } from "../firebaseConfig";
 import { getDatabase, ref, push, onValue, remove } from "firebase/database";
-import { LineChart } from "react-native-chart-kit";
 import { FlatList } from "react-native-gesture-handler";
 
 const database = getDatabase(app2);
@@ -61,7 +60,7 @@ export default function Tracker() {
             />
 
             <FAB 
-                color="#782E8A"
+                color="#464E12"
                 size="small"
                 title="Save"
                 onPress={() => saveWeight()}

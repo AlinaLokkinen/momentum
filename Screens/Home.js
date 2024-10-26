@@ -49,7 +49,7 @@ export default function Home({navigation}) {
 
                 <FAB
                     style={{ width: "80%", margin: 20 }}
-                    color="#782E8A"
+                    color="#464E12"
                     size="small"
                     title="Add new workout"
                     onPress={() => navigation.navigate('Workout Journal')}

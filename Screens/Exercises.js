@@ -106,7 +106,7 @@ export default function Exercises() {
 
                 <FAB
                     style={{ width: "80%", margin: 20 }}
-                    color="#782E8A"
+                    color="#464E12"
                     size="small"
                     title="Search"
                     onPress={() => {
@@ -135,7 +135,7 @@ export default function Exercises() {
                                             title='See instructions'
                                             style={{marginTop: 15}}
                                             size="small"
-                                            color="#782E8A"
+                                            color="#464E12"
                                             onPress={() => showInstructions()}
                                             />
 
