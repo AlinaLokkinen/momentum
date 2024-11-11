@@ -6,6 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { app2 } from "../firebaseConfig";
 import { getDatabase, ref, push, onValue, remove } from "firebase/database";
 import { FlatList } from "react-native-gesture-handler";
+import { LineChart } from "react-native-chart-kit";
 
 const database = getDatabase(app2);
 
@@ -28,7 +29,6 @@ export default function Tracker() {
             const weightWithKeys = Object.values(d).map((obj, index) => {
                 return {...obj, key: keys[index]}
             });
-
             setWeightData(weightWithKeys);
         })
     }, []);
@@ -67,19 +67,29 @@ export default function Tracker() {
                 onPress={() => saveWeight()}
             />
 
+            <View style={{margin: 15, alignItems: 'center'}}>
+                <LineChart 
+                    weightData={weightData}
+                />
+            </View>
             
 
-            <FlatList 
-                data={weightData}
-                renderItem={({item}) => 
-                    <View style={{margin: 15}}>
-                        <Text>{item.id}</Text>
-                        <Text>{item.date}</Text>
-                        <Text>{item.weight}</Text>
-                        <Button onPress={() => deleteWeight(item.key)}>Delete</Button>
-                    </View>
-                }
-            />
+            <View style={{margin: 15, alignItems: 'center'}}>
+                <FlatList 
+                    data={weightData}
+                    renderItem={({item}) => 
+                        <View style={{margin: 15}}>
+                            <Text>{item.date}</Text>
+                            <Text>{item.weight} kg</Text>
+                            <Button 
+                                title='Delete'
+                                type='clear'
+                                size="sm"
+                                onPress={() => deleteWeight(item.key)}>Delete</Button>
+                        </View>
+                    }
+                />
+            </View>
 
         </View>
 

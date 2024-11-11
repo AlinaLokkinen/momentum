@@ -85,7 +85,7 @@ export default function WorkoutJournal() {
     }
 
     return (
-        <View>
+        <View >
 
             {/* Default view */}
             {/* ****************************************************** */}
@@ -102,13 +102,7 @@ export default function WorkoutJournal() {
                         }}
                     />
 
-                    {/* <FAB 
-                        title='Delete all workouts'
-                        style={{marginTop: 15}}
-                        size="small"
-                        color="#464E12"
-                        onPress={() => deleteWorkouts() }
-                    /> */}
+                        
             {/* ****************************************************** */}
 
                 </View>
