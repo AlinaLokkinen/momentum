@@ -21,14 +21,15 @@ export default function Tracker() {
     const [weightData, setWeightData] = useState([]);
 
     useEffect(() => {
-        const itemsRef = ref(database, 'weight/');
-        onValue(itemsRef, (snapshot) => {
+        const weightRef = ref(database, 'weight/');
+        onValue(weightRef, (snapshot) => {
             const d = snapshot.val();
-            if (d) {
-                setWeightData(Object.values(d));
-            } else {
-                setWeightData([]);
-            }
+            const keys = Object.keys(d);
+            const weightWithKeys = Object.values(d).map((obj, index) => {
+                return {...obj, key: keys[index]}
+            });
+
+            setWeightData(weightWithKeys);
         })
     }, []);
 
@@ -41,9 +42,9 @@ export default function Tracker() {
         }
     }
 
-//    const deleteWeight = (key) => {
-//         remove(ref(database, `weight/${key}`));
-//    }    
+   const deleteWeight = (key) => {
+        remove(ref(database, `weight/${key}`));
+   }    
 
     return (
 
