@@ -3,9 +3,10 @@ import { FAB, Input, Button } from "@rneui/themed";
 import { useState, useEffect } from "react";
 import { Alert, View, FlatList } from "react-native";
 import { app2 } from "../firebaseConfig";
-import { getDatabase, ref, push, onValue } from "firebase/database";
+import { getDatabase, ref, push, onValue, remove } from "firebase/database";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Ionicons from '@expo/vector-icons/Ionicons';
+// import confirm
 
 const database = getDatabase(app2);
 
@@ -80,8 +81,7 @@ export default function WorkoutJournal() {
 
 
     const deleteWorkout = (key) => {
-        Alert.alert('Delete workout', `Are you sure you want to delete ${key}? This action cannot be reversed.`);
-        
+        remove(ref(database, `workouts/${key}`));
     }
 
     return (
