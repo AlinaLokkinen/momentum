@@ -5,6 +5,7 @@ export default function WeightDiagram({ weightData }) {
 
     // console.log(weightData);
 
+    // koko päivämäärä on liian pitkä, lyhennetään sitä
     const labels = weightData.map(data => {
         const shortDate = data.date.slice(0, -4);
         return shortDate;

@@ -1,20 +1,21 @@
-import { Text } from "@rneui/base"
 import { View } from "react-native"
-import { Calendar, CalendarList, Agenda } from "react-native-calendars"
+import { Calendar } from "react-native-calendars"
 
 export default function WorkoutCalendar({ workoutData }) {
 
+    // käydään läpi workoutdata
     const workoutDates = workoutData.reduce((accumulator, data) => {
         // päivämäärät väärässä muodossa (dd-mm-yyy), muutetaan yyyy-mm-dd:
         const dateSplits = data.date.split(".");
         let date = '';
+        // jos päivä on 1-9, muutetaan se 01-09
         if (dateSplits[0].length < 2) {
             date = `${dateSplits[2]}-${dateSplits[1]}-0${dateSplits[0]}`;
         } else {
             date = `${dateSplits[2]}-${dateSplits[1]}-${dateSplits[0]}`;
         }
-       
         
+        // esim. '2024-11-14' = { kalenterin asetuksia }
         accumulator[date] = {
             customStyles: {
                 container: {
@@ -34,7 +35,6 @@ export default function WorkoutCalendar({ workoutData }) {
     
     return (
         <View>
-
             <Calendar 
                 markingType='custom'
                 firstDay={1}
@@ -46,8 +46,6 @@ export default function WorkoutCalendar({ workoutData }) {
                     width: 300,
                   }}
             />
-
         </View>
     )
-
 }

@@ -4,7 +4,6 @@ import { Dropdown } from "react-native-element-dropdown";
 import { Input, FAB, Text, Image } from "@rneui/themed";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { ScrollView } from "react-native-gesture-handler";
-import GifImage from '@lowkey/react-native-gif';
 
 export default function Exercises() {
 
@@ -13,6 +12,7 @@ export default function Exercises() {
     const [value, setValue] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    // määritetään url käyttäjän valinnan perusteella
     const setSearchUrl = () => {
         setLoading(true);
         let url = '';
@@ -35,16 +35,19 @@ export default function Exercises() {
         getExercises(url);
     } 
 
+    // dropdownin vaihtoehdot
     const data = [
         {label: 'Target Muscle', value: 1},
         {label: 'Equipment', value: 2},
         {label: 'Exercise name', value: 3},
         ];
 
+    // urlit
     const targetMuscleUrl = 'https://exercisedb.p.rapidapi.com/exercises/target/' + keyword + '?offset=0&limit=10';
     const exerciseUrl = 'https://exercisedb.p.rapidapi.com/exercises/name/' + keyword + '?offset=0&limit=10';
     const equipmentUrl = 'https://exercisedb.p.rapidapi.com/exercises/equipment/' + keyword + '?limit=10&offset=0';
 
+    // treeniliikkeiden haku
     const getExercises = (url) => {
         fetch(url, {
             method: 'GET',
@@ -66,7 +69,6 @@ export default function Exercises() {
 
     return (
         <ScrollView>
-
             <Text style={{margin: 15}}>Search for exercises by muscle group, equipment type or exercise name.</Text>
 
             <Dropdown 
@@ -80,10 +82,7 @@ export default function Exercises() {
                 maxHeight={300}
                 placeholder="Select search criteria"
                 value={value}
-                onChange={item => {
-                    setValue(item.value);
-
-                }}
+                onChange={ item => setValue(item.value) }
             />
 
             <Input 
@@ -95,58 +94,41 @@ export default function Exercises() {
                 }
             />
 
-                <FAB
-                    style={{ width: "80%", margin: 20 }}
-                    color="#464E12"
-                    size="small"
-                    title="Search"
-                    onPress={() => {
-                        setSearchUrl();
-                    }}
-                /> 
+            <FAB
+                style={{ width: "80%", margin: 20 }}
+                color="#464E12"
+                size="small"
+                title="Search"
+                onPress={ () => setSearchUrl() }
+            /> 
 
-                <View style={{alignItems: 'center'}}>
-                    {loading && <ActivityIndicator size='small' color='purple' />}
+            <View style={{alignItems: 'center'}}>
+                {loading && <ActivityIndicator size='small' color='purple' />}
                         
-                    { exercises.length > 0 ? (
-                        <View>
-                            
-
-                            {exercises.map((item, index) => (
-                                <View style={styles.listitem}  key={index}>
-                                <Text h4 style={{marginBottom: 15}}>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</Text>
-                                <GifImage 
-                                    style={styles.gif}
-                                    source={{uri: item.gifUrl}}
-                                    resizeMode={'cover'}
-                                    PlaceholderContent={ <ActivityIndicator size='small' color='purple' />}
-                                />
-
-                                
-
-                                <Text style={{ marginTop: 20 }}>
-                                    {item.instructions.map((text, i) => (
-                                        <Text key={i}>{text}{'\n'}{'\n'}</Text>
-                                    ))}
-                                </Text>
-
-                                
+                { exercises.length > 0 ? (
+                    <View>
+                        {exercises.map((item, index) => (
+                            <View style={styles.listitem}  key={index}>
+                            <Text h4 style={{marginBottom: 15}}>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</Text>
+                            <Image 
+                                style={styles.gif}
+                                source={{uri: item.gifUrl}}
+                                resizeMode={'cover'}
+                                PlaceholderContent={ <ActivityIndicator size='small' color='purple' />}
+                            />
+                            <Text style={{ marginTop: 20 }}>
+                                {item.instructions.map((text, i) => (
+                                    <Text key={i}>{text}{'\n'}{'\n'}</Text>
+                                ))}
+                            </Text>
                             </View>
-                            ))}
-                        </View> 
-                    ) : (
-                        <Text>No exercises to show.</Text>
-                    )}
-
-                </View>
-
-            </ScrollView>
-
-               
-
-                
-
-
+                        ))}
+                    </View> 
+                ) : (
+                    <Text>No exercises to show.</Text>
+                )}
+            </View>
+        </ScrollView>
     )
     
 }
@@ -175,8 +157,4 @@ const styles = StyleSheet.create({
         width: '90%',
         aspectRatio: 1,
     },
-    text: {
-
-    }
-    
 })

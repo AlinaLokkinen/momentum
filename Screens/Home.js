@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import {  ScreenHeight, ScreenWidth } from "@rneui/base";
 import { Text, FAB } from "@rneui/base";
 
-export default function Home({navigation}) {
+export default function Home({ navigation }) {
 
     const date = new Date();
     const hours = date.getHours();
@@ -35,18 +35,13 @@ export default function Home({navigation}) {
                 {hours < 12 ? 
                     (   <View style={styles.container}>
                             <Text h3 h3Style={{ color: 'white'}}>Good morning!</Text>
-                        </View>) : 
-                    (   
-                        
-                            <View style={styles.container}>
-                                <Text h3 h3Style={{ color: 'white'}}>{getRandomGreeting()}</Text>
-                            </View>
-                       
-
+                        </View>
+                    ) : (   
+                        <View style={styles.container}>
+                            <Text h3 h3Style={{ color: 'white'}}>{getRandomGreeting()}</Text>
+                        </View>
                     )}
                
-               
-
                 <FAB
                     style={{ width: "80%", margin: 20 }}
                     color="#464E12"
@@ -54,8 +49,6 @@ export default function Home({navigation}) {
                     title="Add new workout"
                     onPress={() => navigation.navigate('Workout Journal')}
                 />
-                
-
                 </ImageBackground>
             </View>
     );
@@ -65,7 +58,6 @@ export default function Home({navigation}) {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        
     },
     backGroundImage: {
         width: ScreenWidth, 
