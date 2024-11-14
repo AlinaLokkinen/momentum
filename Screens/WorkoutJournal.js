@@ -205,7 +205,7 @@ export default function WorkoutJournal() {
                        
 
                     {workoutData.map((item, index) => (
-                        <View style={{ marginBottom: 35 }}>
+                        <View style={{ marginBottom: 35 }} key={index}>
                         <Text>{item.date}</Text>
                         <View>
                             <Text>Workout name: {item.name} </Text>

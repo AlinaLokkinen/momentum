@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { Input, FAB, Text, LinearProgress, Image, Button, Dialog } from "@rneui/themed";
+import { Input, FAB, Text, Image } from "@rneui/themed";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { FlatList, ScrollView } from "react-native-gesture-handler";
-
+import { ScrollView } from "react-native-gesture-handler";
+import GifImage from '@lowkey/react-native-gif';
 
 export default function Exercises() {
 
@@ -12,7 +12,6 @@ export default function Exercises() {
     const [exercises, setExercises] = useState([]);
     const [value, setValue] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [visible, setVisible] = useState(false);
 
     const setSearchUrl = () => {
         setLoading(true);
@@ -65,14 +64,6 @@ export default function Exercises() {
         .finally(() => setLoading(false));
     }
 
-    const showInstructions = () => {
-        setVisible(true);
-    }
-
-    const closeDialog = () => {
-        setVisible(false);
-    }
-
     return (
         <ScrollView>
 
@@ -122,17 +113,22 @@ export default function Exercises() {
                             
 
                             {exercises.map((item, index) => (
-                                <View style={styles.flatlistitem}>
+                                <View style={styles.listitem}  key={index}>
                                 <Text h4 style={{marginBottom: 15}}>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</Text>
-                                <Image 
+                                <GifImage 
                                     style={styles.gif}
                                     source={{uri: item.gifUrl}}
+                                    resizeMode={'cover'}
                                     PlaceholderContent={ <ActivityIndicator size='small' color='purple' />}
                                 />
 
                                 
 
-                                <Text style={{marginTop: 20}}>{item.instructions}</Text>
+                                <Text style={{ marginTop: 20 }}>
+                                    {item.instructions.map((text, i) => (
+                                        <Text key={i}>{text}{'\n'}{'\n'}</Text>
+                                    ))}
+                                </Text>
 
                                 
                             </View>
@@ -172,7 +168,7 @@ const styles = StyleSheet.create({
         height: 40,
         fontSize: 16,
     },
-    flatlistitem: {
+    listitem: {
         margin: 45,
     },
     gif: {

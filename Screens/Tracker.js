@@ -98,7 +98,7 @@ export default function Tracker() {
             
 
             {weightData.map((item, index) => (
-                <View style={{ marginBottom: 35 }}>
+                <View style={{ marginBottom: 35 }} key={index}>
                 <Text>{item.date}</Text>
                 <Text>{item.weight} kg</Text>
                 <Button 
