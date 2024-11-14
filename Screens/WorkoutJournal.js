@@ -5,8 +5,8 @@ import { Alert, View, FlatList } from "react-native";
 import { app2 } from "../firebaseConfig";
 import { getDatabase, ref, push, onValue, remove } from "firebase/database";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Ionicons from '@expo/vector-icons/Ionicons';
-// import confirm
+import Calendar from "./Calendar";
+import { ScrollView } from "react-native-gesture-handler";
 
 const database = getDatabase(app2);
 
@@ -84,8 +84,12 @@ export default function WorkoutJournal() {
         remove(ref(database, `workouts/${key}`));
     }
 
+    const deleteAllWorkouts = () => {
+        remove(ref(database, `workouts/`));
+    }
+
     return (
-        <View >
+        <View>
 
             {/* Default view */}
             {/* ****************************************************** */}
@@ -184,37 +188,59 @@ export default function WorkoutJournal() {
 
 
                 <View style={{margin: 15, alignItems: 'center'}}>
+
+                    
+                    {workoutData.length > 0 ? (
+                        <Calendar 
+
+                        />
+                    ) : (
+                        <Text>No workouts to show</Text>
+                    )}
+
+
+
                     {/* List of workouts */}
                     {/* ****************************************************** */}
-                    <Text>Your completed workouts:</Text>
+                    <Text style={{marginBottom: 15}}>Your completed workouts:</Text>
                     <FlatList 
                     
                         data={workoutData}
                         keyExtractor={(item, index) => index.toString()} 
                         renderItem={({item}) => 
-                            <View style={{marginTop: 15}}> 
+                            <View style={{ marginBottom: 35 }}>
                                 <Text>{item.date}</Text>
-                                <View style={{flexDirection: 'row'}}>
-                                    <Text>{item.name} </Text>
-                                    <Text>{item.duration} </Text>
-                                    <Text>{item.comments} </Text>
-                                    
-                                </View>
+                                <View>
+                                    <Text>Workout name: {item.name} </Text>
+                                    <Text>Workout duration: {item.duration} </Text>
+                                    <Text>Comments: {item.comments} </Text>
                                 <Button 
-                                        title='Delete'
-                                        type='clear'
-                                        size="sm"
-                                        onPress={() => deleteWorkout(item.key)}
+                                    title='Delete'
+                                    color='red'
+                                    size="sm"
+                                    onPress={() => deleteWorkout(item.key)}
+                                    buttonStyle={{ alignSelf: 'flex-start', marginTop: 10, borderRadius: 20, width: '55%' }}
                                 />
+                                </View>
                             </View>
                         }
+                        ListFooterComponent={<View style={{height: 20}}/>}
                     />
                     {/* ****************************************************** */}
 
+                    
                 </View>
+                
 
                 )}
-           
+           {workoutData.length > 0 && !pressedLogNew ? (
+                        <Button 
+                            title='Delete all workouts'
+                            color="red"
+                            buttonStyle={{ marginBottom: 20, borderRadius: 20, width: '50%', alignSelf: 'center'}}
+                            onPress={() => deleteAllWorkouts()}
+                        />
+                    ) : ( <View></View>) }
                 
         </View>
     )

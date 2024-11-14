@@ -1,12 +1,13 @@
 import { Text } from "@rneui/base";
 import { FAB, Input, Button } from "@rneui/themed";
 import { useEffect, useState } from "react";
-import { Alert, View } from "react-native";
+import { Alert, View, ScrollView } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { app2 } from "../firebaseConfig";
 import { getDatabase, ref, push, onValue, remove } from "firebase/database";
 import { FlatList } from "react-native-gesture-handler";
 import { LineChart } from "react-native-chart-kit";
+import WeightDiagram from "./WeightDiagram";
 
 const database = getDatabase(app2);
 
@@ -21,15 +22,22 @@ export default function Tracker() {
 
     const [weightData, setWeightData] = useState([]);
 
+    const [keys, setKeys] = useState([]);
+
     useEffect(() => {
         const weightRef = ref(database, 'weight/');
         onValue(weightRef, (snapshot) => {
             const d = snapshot.val();
-            const keys = Object.keys(d);
+            if (d) {
+                const keys = Object.keys(d);
+                setKeys(keys);
             const weightWithKeys = Object.values(d).map((obj, index) => {
                 return {...obj, key: keys[index]}
             });
             setWeightData(weightWithKeys);
+            } else {
+                setWeightData([]);
+            }
         })
     }, []);
 
@@ -38,17 +46,21 @@ export default function Tracker() {
         if (data.weight) {
             push(ref(database, 'weight/'), data);
         } else {
-            Alert.alert('Error', 'Please input weight');
+            Alert.alert('Error', 'Error adding weight. Please make sure you are trying to input only numerical values or that the input field is not empty.');
         }
     }
 
    const deleteWeight = (key) => {
         remove(ref(database, `weight/${key}`));
-   }    
+   }   
+   
+   const deleteAllWeight = () => {
+        remove(ref(database, `weight/`));
+   }
 
     return (
 
-        <View>
+        <ScrollView  style={{ margin: 15 }}>
 
             <Text>Track your weight progression here. </Text>
 
@@ -57,7 +69,13 @@ export default function Tracker() {
                 leftIcon={
                     <Ionicons name='scale-outline' />
                 }
-                onChangeText={(number) => setData({...data, weight: parseFloat(number)})}
+                onChangeText={(number) => {
+                    if (number === NaN) {
+                        Alert.alert('Please input a valid number');
+                    } else {
+                        setData({...data, weight: parseFloat(number)});
+                    }
+                }}
             />
 
             <FAB 
@@ -68,30 +86,43 @@ export default function Tracker() {
             />
 
             <View style={{margin: 15, alignItems: 'center'}}>
-                <LineChart 
-                    weightData={weightData}
-                />
-            </View>
-            
-
-            <View style={{margin: 15, alignItems: 'center'}}>
-                <FlatList 
-                    data={weightData}
-                    renderItem={({item}) => 
-                        <View style={{margin: 15}}>
-                            <Text>{item.date}</Text>
-                            <Text>{item.weight} kg</Text>
-                            <Button 
-                                title='Delete'
-                                type='clear'
-                                size="sm"
-                                onPress={() => deleteWeight(item.key)}>Delete</Button>
-                        </View>
-                    }
-                />
+                {weightData.length > 0 ? (
+                    <WeightDiagram weightData={weightData} />
+                ) : (
+                    <Text>No data</Text>
+                )}
             </View>
 
-        </View>
+            <View>
+            <Text style={{marginBottom: 15}}>Your saved weight data:</Text>
+            <FlatList 
+                data={weightData}
+                renderItem={({ item }) => (
+                <View style={{ marginBottom: 35 }}>
+                    <Text>{item.date}</Text>
+                    <Text>{item.weight} kg</Text>
+                    <Button 
+                        title='Delete'
+                        color='red'
+                        size="sm"
+                        onPress={() => deleteWeight(item.key)}
+                        buttonStyle={{ alignSelf: 'flex-start', marginTop: 10, borderRadius: 20, width: '15%' }}
+                    />
+                </View>
+                )}
+            />
+
+            {weightData.length > 0 ? (
+                <Button 
+                    title='Delete all weight data'
+                    color="red"
+                    buttonStyle={{ marginTop: 10, borderRadius: 20, width: '50%', alignSelf: 'center'}}
+                    onPress={() => deleteAllWeight()}
+                />
+            ) : ( <View></View>) }
+            </View>
+
+        </ScrollView>
 
     )
     

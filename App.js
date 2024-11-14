@@ -28,8 +28,6 @@ export default function App() {
               iconName = 'barbell-outline';
             } else if (route.name === 'Workout Journal') {
               iconName = 'book-outline';
-            } else if (route.name === 'Calendar') {
-              iconName = 'calendar-outline';
             } else if (route.name === 'Tracker') {
               iconName = 'scale-outline';
             }
@@ -41,7 +39,6 @@ export default function App() {
           <Drawer.Screen name='Momentum' component={Home} />
           <Drawer.Screen name='Exercises' component={Exercises} />
           <Drawer.Screen name='Workout Journal' component={WorkoutJournal} />
-          <Drawer.Screen name='Calendar' component={Calendar} />
           <Drawer.Screen name='Tracker' component={Tracker} />
           
         </Drawer.Navigator>

@@ -3,7 +3,7 @@ import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { Input, FAB, Text, LinearProgress, Image, Button, Dialog } from "@rneui/themed";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList, ScrollView } from "react-native-gesture-handler";
 
 
 export default function Exercises() {
@@ -74,7 +74,7 @@ export default function Exercises() {
     }
 
     return (
-        <View>
+        <ScrollView>
 
             <Text style={{margin: 15}}>Search for exercises by muscle group, equipment type or exercise name.</Text>
 
@@ -116,7 +116,7 @@ export default function Exercises() {
 
                 <View style={{alignItems: 'center'}}>
                     {loading && <ActivityIndicator size='small' color='purple' />}
-
+                        
                     { exercises.length > 0 ? (
                         <View>
                             <FlatList 
@@ -158,7 +158,7 @@ export default function Exercises() {
 
                 </View>
 
-        </View>
+            </ScrollView>
 
                
 
