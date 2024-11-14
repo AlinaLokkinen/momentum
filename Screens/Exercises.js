@@ -74,7 +74,7 @@ export default function Exercises() {
     }
 
     return (
-        <View>
+        <ScrollView>
 
             <Text style={{margin: 15}}>Search for exercises by muscle group, equipment type or exercise name.</Text>
 
@@ -119,38 +119,24 @@ export default function Exercises() {
                         
                     { exercises.length > 0 ? (
                         <View>
-                            <FlatList 
                             
-                                data={exercises}
-                                renderItem={({item}) => (
-                                    <View style={styles.flatlistitem}>
-                                        <Text h4 style={{marginBottom: 15}}>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</Text>
-                                        <Image 
-                                            style={styles.gif}
-                                            source={{uri: item.gifUrl}}
-                                            PlaceholderContent={ <ActivityIndicator size='small' color='purple' />}
-                                        />
 
-                                        <FAB 
-                                            title='See instructions'
-                                            style={{marginTop: 15}}
-                                            size="small"
-                                            color="#464E12"
-                                            onPress={() => showInstructions()}
-                                            />
+                            {exercises.map((item, index) => (
+                                <View style={styles.flatlistitem}>
+                                <Text h4 style={{marginBottom: 15}}>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</Text>
+                                <Image 
+                                    style={styles.gif}
+                                    source={{uri: item.gifUrl}}
+                                    PlaceholderContent={ <ActivityIndicator size='small' color='purple' />}
+                                />
 
-                                        <Dialog 
-                                            isVisible={visible}
-                                            onBackdropPress={closeDialog}>
-                                                <Dialog.Title title={item.name.charAt(0).toUpperCase() + item.name.slice(1)} />
-                                                {item.instructions.map((instruction, index) => (
-                                                    <Text key={index} style={{margin: 5}}>{instruction}</Text>
-                                                ))}
-                                                <Text style={{marginTop: 15, fontWeight: 'bold'}}>Close the instruction by pressing outside of this box.</Text>
-                                        </Dialog>
-                                    </View>
-                                )}
-                            />
+                                
+
+                                <Text style={{marginTop: 20}}>{item.instructions}</Text>
+
+                                
+                            </View>
+                            ))}
                         </View> 
                     ) : (
                         <Text>No exercises to show.</Text>
@@ -158,7 +144,7 @@ export default function Exercises() {
 
                 </View>
 
-            </View>
+            </ScrollView>
 
                
 

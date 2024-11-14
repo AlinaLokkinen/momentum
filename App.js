@@ -5,7 +5,6 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Home from './Screens/Home';
 import Exercises from './Screens/Exercises';
 import WorkoutJournal from './Screens/WorkoutJournal';
-import Calendar from './Screens/Calendar';
 import Tracker from './Screens/Tracker';
 import { NavigationContainer } from '@react-navigation/native';
 

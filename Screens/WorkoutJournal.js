@@ -5,7 +5,7 @@ import { Alert, View, FlatList } from "react-native";
 import { app2 } from "../firebaseConfig";
 import { getDatabase, ref, push, onValue, remove } from "firebase/database";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import Calendar from "./Calendar";
+import WorkoutCalendar from "./WorkoutCalendar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -31,12 +31,16 @@ export default function WorkoutJournal() {
         const workoutRef = ref(database, 'workouts/');
         onValue(workoutRef, (snapshot) => {
             const d = snapshot.val();
-            const keys = Object.keys(d);
+            if (d) {
+                const keys = Object.keys(d);
             const workoutsWithKeys = Object.values(d).map((obj, i) => {
                 return {...obj, key: keys[i]}
             });
 
             setWorkoutData(workoutsWithKeys);
+            } else {
+                setWorkoutData([]);
+            }
         })
     }, []);
 
@@ -90,13 +94,12 @@ export default function WorkoutJournal() {
     }
 
     return (
-        <ScrollView>
+        <ScrollView  style={{ margin: 15 }}>
 
             {/* Default view */}
             {/* ****************************************************** */}
             {!pressedLogNew && (
                 <View style={{margin: 15}}>
-                    <Text>Add your completed exercise here.</Text>
                     <FAB 
                         title='Add new workout'
                         style={{marginTop: 15}}
@@ -158,7 +161,7 @@ export default function WorkoutJournal() {
                             onChange={onChange}
                          />
                     )}
-
+            
 
                     <View style={{flexDirection: 'row', justifyContent: 'center', marginTop: 15}}>
 
@@ -181,31 +184,25 @@ export default function WorkoutJournal() {
 
                 </View>
 
-
-
-
                 ) : (
-                    
+                   
+                <View>
 
-
-                <View style={{margin: 15}}>
-
-                    
+                     <View style={{margin: 15, alignItems: 'center'}}>
                     {workoutData.length > 0 ? (
-                        <Calendar 
-
+                        <WorkoutCalendar 
+                            workoutData={workoutData}
                         />
                     ) : (
                         <Text>No workouts to show</Text>
                     )}
-
-
-
+                </View>
                     {/* List of workouts */}
                     {/* ****************************************************** */}
-                    <Text style={{marginBottom: 15}}>Your completed workouts:</Text>
 
                     {/* flatlist ja scrollview yhdessä ei hyvä yhdistelmä, joten käytetään map */}
+
+                       
 
                     {workoutData.map((item, index) => (
                         <View style={{ marginBottom: 35 }}>
@@ -219,18 +216,23 @@ export default function WorkoutJournal() {
                             color='red'
                             size="sm"
                             onPress={() => deleteWorkout(item.key)}
-                            buttonStyle={{ alignSelf: 'flex-start', marginTop: 10, borderRadius: 20, width: '15%' }}
+                            buttonStyle={{ alignSelf: 'flex-start', marginTop: 10, borderRadius: 20,width: '15%' }}
                         />
                         </View>
                     </View>
                     ))}
                     {/* ****************************************************** */}
+                </View>
+                )}
+
+
+               
 
                     
-                </View>
+   
                 
 
-                )}
+    
            {workoutData.length > 0 && !pressedLogNew ? (
                         <Button 
                             title='Delete all workouts'
