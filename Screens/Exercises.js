@@ -74,7 +74,7 @@ export default function Exercises() {
     }
 
     return (
-        <ScrollView>
+        <View>
 
             <Text style={{margin: 15}}>Search for exercises by muscle group, equipment type or exercise name.</Text>
 
@@ -158,7 +158,7 @@ export default function Exercises() {
 
                 </View>
 
-            </ScrollView>
+            </View>
 
                
 

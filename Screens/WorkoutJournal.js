@@ -6,6 +6,7 @@ import { app2 } from "../firebaseConfig";
 import { getDatabase, ref, push, onValue, remove } from "firebase/database";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Calendar from "./Calendar";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
 
 const database = getDatabase(app2);
@@ -89,7 +90,7 @@ export default function WorkoutJournal() {
     }
 
     return (
-        <View>
+        <ScrollView>
 
             {/* Default view */}
             {/* ****************************************************** */}
@@ -187,7 +188,7 @@ export default function WorkoutJournal() {
                     
 
 
-                <View style={{margin: 15, alignItems: 'center'}}>
+                <View style={{margin: 15}}>
 
                     
                     {workoutData.length > 0 ? (
@@ -203,29 +204,26 @@ export default function WorkoutJournal() {
                     {/* List of workouts */}
                     {/* ****************************************************** */}
                     <Text style={{marginBottom: 15}}>Your completed workouts:</Text>
-                    <FlatList 
-                    
-                        data={workoutData}
-                        keyExtractor={(item, index) => index.toString()} 
-                        renderItem={({item}) => 
-                            <View style={{ marginBottom: 35 }}>
-                                <Text>{item.date}</Text>
-                                <View>
-                                    <Text>Workout name: {item.name} </Text>
-                                    <Text>Workout duration: {item.duration} </Text>
-                                    <Text>Comments: {item.comments} </Text>
-                                <Button 
-                                    title='Delete'
-                                    color='red'
-                                    size="sm"
-                                    onPress={() => deleteWorkout(item.key)}
-                                    buttonStyle={{ alignSelf: 'flex-start', marginTop: 10, borderRadius: 20, width: '55%' }}
-                                />
-                                </View>
-                            </View>
-                        }
-                        ListFooterComponent={<View style={{height: 20}}/>}
-                    />
+
+                    {/* flatlist ja scrollview yhdessä ei hyvä yhdistelmä, joten käytetään map */}
+
+                    {workoutData.map((item, index) => (
+                        <View style={{ marginBottom: 35 }}>
+                        <Text>{item.date}</Text>
+                        <View>
+                            <Text>Workout name: {item.name} </Text>
+                            <Text>Workout duration: {item.duration} </Text>
+                            <Text>Comments: {item.comments} </Text>
+                        <Button 
+                            title='Delete'
+                            color='red'
+                            size="sm"
+                            onPress={() => deleteWorkout(item.key)}
+                            buttonStyle={{ alignSelf: 'flex-start', marginTop: 10, borderRadius: 20, width: '15%' }}
+                        />
+                        </View>
+                    </View>
+                    ))}
                     {/* ****************************************************** */}
 
                     
@@ -241,7 +239,7 @@ export default function WorkoutJournal() {
                             onPress={() => deleteAllWorkouts()}
                         />
                     ) : ( <View></View>) }
-                
-        </View>
+
+                </ScrollView>
     )
 } 

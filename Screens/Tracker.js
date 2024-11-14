@@ -95,22 +95,21 @@ export default function Tracker() {
 
             <View>
             <Text style={{marginBottom: 15}}>Your saved weight data:</Text>
-            <FlatList 
-                data={weightData}
-                renderItem={({ item }) => (
+            
+
+            {weightData.map((item, index) => (
                 <View style={{ marginBottom: 35 }}>
-                    <Text>{item.date}</Text>
-                    <Text>{item.weight} kg</Text>
-                    <Button 
-                        title='Delete'
-                        color='red'
-                        size="sm"
-                        onPress={() => deleteWeight(item.key)}
-                        buttonStyle={{ alignSelf: 'flex-start', marginTop: 10, borderRadius: 20, width: '15%' }}
-                    />
-                </View>
-                )}
-            />
+                <Text>{item.date}</Text>
+                <Text>{item.weight} kg</Text>
+                <Button 
+                    title='Delete'
+                    color='red'
+                    size="sm"
+                    onPress={() => deleteWeight(item.key)}
+                    buttonStyle={{ alignSelf: 'flex-start', marginTop: 10, borderRadius: 20, width: '15%' }}
+                />
+            </View>
+            ))}
 
             {weightData.length > 0 ? (
                 <Button 
