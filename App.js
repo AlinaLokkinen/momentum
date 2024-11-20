@@ -29,7 +29,7 @@ export default function App() {
               iconName = 'book-outline';
             } else if (route.name === 'Tracker') {
               iconName = 'scale-outline';
-            }
+            } 
 
             return <Ionicons name={iconName} size={size} color={color} />;
           }

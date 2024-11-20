@@ -3,7 +3,7 @@ import { FAB, Input, Button } from "@rneui/themed";
 import { useState, useEffect } from "react";
 import { Alert, View } from "react-native";
 import { app2 } from "../firebaseConfig";
-import { getDatabase, ref, push, onValue, remove } from "firebase/database";
+import { getDatabase, ref, push, onValue, remove, update } from "firebase/database";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import WorkoutCalendar from "./WorkoutCalendar";
 import { ScrollView } from "react-native-gesture-handler";
@@ -17,12 +17,16 @@ export default function WorkoutJournal() {
     const [pressedLogNew, setPressedLogNew] = useState(false);
     const [workoutData, setWorkoutData] = useState([]);
   
+    const [workoutToEdit, setWorkoutToEdit] = useState(null);
+
     const [workout, setWorkout] = useState({
         date: new Date().toLocaleDateString(),
         name: '',
         duration: '',
         comments: ''
     });
+
+    
 
     useEffect(() => {
         const workoutRef = ref(database, 'workouts/');
@@ -42,6 +46,12 @@ export default function WorkoutJournal() {
         })
     }, []);
 
+    useEffect(() => {
+        if (workoutToEdit) {
+            setWorkout(workoutToEdit);
+            console.log(workoutToEdit);
+        }
+    }, [workoutToEdit]);
 
 
     const saveWorkout = () => {
@@ -49,7 +59,12 @@ export default function WorkoutJournal() {
         setDate(new Date());
         // jos tarpeeksi dataa, viedään tietokantaan
         if (workout.name && workout.duration) {
-            push(ref(database, 'workouts/'), workout);
+            if (workoutToEdit) {
+                saveUpdatedWorkout();
+            } else {
+                push(ref(database, 'workouts/'), workout); 
+            }
+            
             setPressedLogNew(false);
             setWorkout({
                 date: new Date().toLocaleDateString(),
@@ -59,6 +74,32 @@ export default function WorkoutJournal() {
             });
         } else {
             Alert.alert('Error', 'Please input workout name and duration');
+        }
+    }
+
+    // muokatun treenin tallennus
+    const saveUpdatedWorkout = () => {
+        if (workout.name && workout.duration) {
+            // tallennetaan workouts/key perusteella tieto
+            const workoutRef = ref(database, `workouts/${workoutToEdit.key}`);
+            update(workoutRef, workout)
+                .then(() => {
+                    setWorkoutToEdit(null); // Poistetaan muokkaustila
+                    setPressedLogNew(false); // Palataan perusnäkymään
+                    setWorkout({
+                        date: new Date().toLocaleDateString(),
+                        name: '',
+                        duration: '',
+                        comments: ''
+                    }); // Tyhjennetään lomake
+                })
+                // jos virhe, kerrotaan käyttäjälle
+                .catch((error) => {
+                    Alert.alert("Error", "Failed to update workout. Try again.");
+                    console.error(error);
+                });
+        } else {
+            Alert.alert("Error", "Please fill in workout name and duration.");
         }
     }
 
@@ -91,10 +132,10 @@ export default function WorkoutJournal() {
         remove(ref(database, `workouts/`));
     }
 
-    // const editWorkout = (key) => {
-    //     setToggleEditWorkout(true);
-        
-    // }
+    const editWorkout = (workout) => {
+        setWorkoutToEdit(workout);
+        setPressedLogNew(true);
+    }
 
     return (
         <ScrollView  style={{ margin: 15 }}>
@@ -135,13 +176,13 @@ export default function WorkoutJournal() {
                             <Text>Workout duration: {item.duration} </Text>
                             <Text>Comments: {item.comments} </Text>
                         <View style={{flexDirection: 'row'}}>
-                            {/* <Button 
+                            <Button 
                                 title='Edit'
                                 color='#464E12'
                                 size="sm"
-                                onPress={() => editWorkout(item.key)}
+                                onPress={() => editWorkout(item)}
                                 buttonStyle={{  marginTop: 10, borderRadius: 20, width: '55%' }}
-                            /> */}
+                            />
                             <Button 
                                 title='Delete'
                                 color='red'
@@ -181,16 +222,20 @@ export default function WorkoutJournal() {
                     />
                      <Input 
                         placeholder="Type of workout (eg. gym, running)"
+                        value={workout.name}
                         onChangeText={(text) => setWorkout({...workout, name: text})}
                      />
                      <Input 
                         placeholder="Duration"
+                        value={workout.duration}
                         onChangeText={(text) => setWorkout({...workout, duration: text})}
                      />
                     <Input 
                         placeholder="How did your workout go?"
+                        value={workout.comments}
                         onChangeText={(text) => setWorkout({...workout, comments: text})}
                      />
+
 
                     {/* Näytetään päivämäärävalitsin jos "Change date" painettu */}
                     {showDatePicker && (
