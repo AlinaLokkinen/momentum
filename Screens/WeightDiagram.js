@@ -3,21 +3,35 @@ import { View, Text } from "react-native";
 
 export default function WeightDiagram({ weightData }) {
 
-    // console.log(weightData);
+    // talteen pelkät päivämäärät
+    const dates = weightData.map(data => {
+        return data.date;
+    })
+    
+    // päivämäärien järjestäminen päivämäärinä ei onnistunut, 
+    // järjestetään ne String -muodossa
+    // https://stackoverflow.com/questions/30691066/sort-a-string-date-array
+    const sortStringDates = dates.sort(function(a,b) {
+
+        // erotetaan pp kk vvvv toisistaan, käännetään ne toiseen järjestykseen ja liitetään taas yhteen
+        a = a.split(".").reverse().join('');
+        b = b.split(".").reverse().join('');
+
+        // järjestetään kasvavaan järjestykseen
+        return a > b ? 1 : a < b ? -1 : 0;
+    })
 
     // koko päivämäärä on liian pitkä, lyhennetään sitä
-    const labels = weightData.map(data => {
-        const shortDate = data.date.slice(0, -4);
-        return shortDate;
-    });
-    // console.log(labels);
+    const shortenedStringDates = sortStringDates.map(item => {
+        return item.slice(0, 6);
+    })
 
+    console.log('Sortstringdates: ' + sortStringDates);
 
     const dataPoints = weightData.map(data => data.weight);
-    // console.log(dataPoints);
 
     const data = {
-        labels: labels,
+        labels: shortenedStringDates,
         datasets: [
             {
                 data: dataPoints
@@ -41,7 +55,7 @@ export default function WeightDiagram({ weightData }) {
     
                     <LineChart 
                     data={data}
-                    width={300}
+                    width={390}
                     height={220}
                     chartConfig={chartConfig}
                 />

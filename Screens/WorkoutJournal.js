@@ -49,7 +49,6 @@ export default function WorkoutJournal() {
     useEffect(() => {
         if (workoutToEdit) {
             setWorkout(workoutToEdit);
-            console.log(workoutToEdit);
         }
     }, [workoutToEdit]);
 

@@ -13,6 +13,7 @@ export default function Tracker() {
 
     const dateToday = new Date().toLocaleDateString();
 
+
     const [data, setData] = useState({
         weight: 0.0,
         date: dateToday
@@ -39,6 +40,7 @@ export default function Tracker() {
 
     // tallenna paino tietokantaan
     const saveWeight = () => {
+
         if (data.weight) {
             push(ref(database, 'weight/'), data);
         } else {
@@ -56,6 +58,8 @@ export default function Tracker() {
         remove(ref(database, `weight/`));
    }
 
+
+
     return (
         <ScrollView  style={{ margin: 15 }}>
             
@@ -63,6 +67,7 @@ export default function Tracker() {
             
             <Input 
                 placeholder="Enter today's weight"
+                value={data.weight}
                 leftIcon={
                     <Ionicons name='scale-outline' />
                 }
@@ -75,6 +80,7 @@ export default function Tracker() {
                 title="Save"
                 onPress={ () => saveWeight() }
             />
+            
 
             <View style={{margin: 15, alignItems: 'center'}}>
                 {weightData.length > 0 ? (
@@ -84,21 +90,34 @@ export default function Tracker() {
                 )}
             </View>
 
+           
+
             <Text style={{marginBottom: 15}}>Your saved weight data:</Text>
             
             {weightData.map((item, index) => (
                 <View style={{ marginBottom: 35 }} key={index}>
                 <Text>{item.date}</Text>
                 <Text>{item.weight} kg</Text>
-                <Button 
-                    title='Delete'
-                    color='red'
-                    size="sm"
-                    onPress={() => deleteWeight(item.key)}
-                    buttonStyle={{ alignSelf: 'flex-start', marginTop: 10, borderRadius: 20, width: '15%' }}
-                />
+                <View style={{flexDirection: 'row'}}>
+                    {/* <Button 
+                        title='Edit'
+                        color='#464E12'
+                        size="sm"
+                        onPress={() => editWeight(item)}
+                        buttonStyle={{  marginTop: 10, borderRadius: 20, width: '55%' }}
+                    /> */}
+                    <Button 
+                        title='Delete'
+                        color='red'
+                        size="sm"
+                        onPress={() => deleteWeight(item.key)}
+                        buttonStyle={{ alignSelf: 'flex-start', marginTop: 10, borderRadius: 20, width: '55%' }}
+                    />
+                </View>
             </View>
             ))}
+
+            
 
             {weightData.length > 0 && (
                 <Button 
