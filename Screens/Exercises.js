@@ -96,7 +96,7 @@ export default function Exercises() {
 
             <FAB
                 style={{ width: "80%", margin: 20 }}
-                color="#464E12"
+                color="#012839"
                 size="small"
                 title="Search"
                 onPress={ () => setSearchUrl() }

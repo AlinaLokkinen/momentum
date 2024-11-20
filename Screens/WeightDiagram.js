@@ -40,9 +40,9 @@ export default function WeightDiagram({ weightData }) {
     }
 
     const chartConfig = {
-        backgroundGradientFrom: "#FFE7C1",
+        backgroundGradientFrom: "#E7E8EC",
         backgroundGradientFromOpacity: 1,
-        backgroundGradientTo: "#FFE7C1",
+        backgroundGradientTo: "#E7E8EC",
         backgroundGradientToOpacity: 1,
         color: (opacity = 1) => `rgba(57, 62, 65, ${opacity})`,
         strokeWidth: 1, // optional, default 3

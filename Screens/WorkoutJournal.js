@@ -148,7 +148,7 @@ export default function WorkoutJournal() {
                         title='Add new workout'
                         style={{marginTop: 15}}
                         size="small"
-                        color="#464E12"
+                        color="#012839"
                         onPress={() => {
                             setPressedLogNew(true);
                         }}
@@ -177,7 +177,7 @@ export default function WorkoutJournal() {
                         <View style={{flexDirection: 'row'}}>
                             <Button 
                                 title='Edit'
-                                color='#464E12'
+                                color='#012839'
                                 size="sm"
                                 onPress={() => editWorkout(item)}
                                 buttonStyle={{  marginTop: 10, borderRadius: 20, width: '55%' }}
@@ -216,7 +216,7 @@ export default function WorkoutJournal() {
                         title='Change Date'
                         style={{marginTop: 15}}
                         size="small"
-                        color="#464E12"
+                        color="#012839"
                         onPress={() => setShowDatePicker(true)}
                     />
                      <Input 
@@ -250,13 +250,13 @@ export default function WorkoutJournal() {
                             title='Save workout'
                             style={{marginRight: 15}}
                             size="small"
-                            color="#464E12"
+                            color="#012839"
                             onPress={() => saveWorkout()}
                         />
                         <FAB 
                             title='Cancel'
                             size="small"
-                            color="#464E12"
+                            color="#012839"
                             onPress={() => cancel()}
                         />
                     </View>

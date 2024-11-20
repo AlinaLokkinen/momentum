@@ -75,7 +75,7 @@ export default function Tracker() {
             />
 
             <FAB 
-                color="#464E12"
+                color="#012839"
                 size="small"
                 title="Save"
                 onPress={ () => saveWeight() }

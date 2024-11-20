@@ -33,22 +33,36 @@ export default function Home({ navigation }) {
                     style={styles.backGroundImage}>
 
                 {hours < 12 ? 
-                    (   <View style={styles.container}>
-                            <Text h3 h3Style={{ color: 'white'}}>Good morning!</Text>
+                    (   <View style={{justifyContent: 'center', marginBottom: 175}}>
+                            <Text h3 h3Style={{ marginBottom: 15}}>Good morning!</Text>
+                            <FAB
+                                style={{ width: "38%" }}
+                                color="#012839"
+                                size="small"
+                                title="Add new workout"
+                                onPress={() => navigation.navigate('Workout Journal')}
+                            />
                         </View>
                     ) : (   
-                        <View style={styles.container}>
-                            <Text h3 h3Style={{ color: 'white'}}>{getRandomGreeting()}</Text>
+                        <View style={{alignContent: 'center', marginBottom: 175}}>
+                            <Text h3 h3Style={{ marginBottom: 15}}>{getRandomGreeting()}</Text>
+                            <FAB
+                                style={{ width: "38%" }}
+                                color="#012839"
+                                size="small"
+                                title="Add new workout"
+                                onPress={() => navigation.navigate('Workout Journal')}
+                            />
                         </View>
                     )}
                
-                <FAB
-                    style={{ width: "80%", margin: 20 }}
-                    color="#464E12"
+                {/* <FAB
+                    style={{ width: "80%" }}
+                    color="#012839"
                     size="small"
                     title="Add new workout"
                     onPress={() => navigation.navigate('Workout Journal')}
-                />
+                /> */}
                 </ImageBackground>
             </View>
     );

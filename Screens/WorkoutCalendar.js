@@ -19,7 +19,7 @@ export default function WorkoutCalendar({ workoutData }) {
         accumulator[date] = {
             customStyles: {
                 container: {
-                    backgroundColor: 'rgb(70, 78, 18)'
+                    backgroundColor: 'rgb(1, 40, 57)'
                 },
                 text: {
                     color: 'white'
