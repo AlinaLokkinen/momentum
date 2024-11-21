@@ -54,7 +54,7 @@ export default function WorkoutJournal() {
 
 
     const saveWorkout = () => {
-        // asettaa päivämääräksi kuluvan päivän
+        // asettaa takaisin päivämääräksi kuluvan päivän, muuten jää aiemmin valittu pvm
         setDate(new Date());
         // jos tarpeeksi dataa, viedään tietokantaan
         if (workout.name && workout.duration) {

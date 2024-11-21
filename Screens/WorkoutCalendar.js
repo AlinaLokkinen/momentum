@@ -9,6 +9,7 @@ export default function WorkoutCalendar({ workoutData }) {
         const dateSplits = data.date.split(".");
         let date = '';
         // jos päivä on 1-9, muutetaan se 01-09
+        // muuten kalenterissa ei näy 'pallo' treenipäivän kohdalla
         if (dateSplits[0].length < 2) {
             date = `${dateSplits[2]}-${dateSplits[1]}-0${dateSplits[0]}`;
         } else {
@@ -16,6 +17,7 @@ export default function WorkoutCalendar({ workoutData }) {
         }
         
         // esim. '2024-11-14' = { kalenterin asetuksia }
+        // accumulator säilöö tiedot koodin ajon ajaksi
         accumulator[date] = {
             customStyles: {
                 container: {

@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 import {  ScreenHeight, ScreenWidth } from "@rneui/base";
 import { Text, FAB } from "@rneui/base";
 
+// react navigation
 export default function Home({ navigation }) {
 
     const date = new Date();
@@ -30,7 +31,8 @@ export default function Home({ navigation }) {
             <View>
                 <ImageBackground 
                     source={require('../assets/bg.png')} 
-                    style={styles.backGroundImage}>
+                    style={styles.backGroundImage}
+                >
 
                 {hours < 12 ? 
                     (   <View style={{justifyContent: 'center', marginBottom: 175}}>
@@ -55,14 +57,6 @@ export default function Home({ navigation }) {
                             />
                         </View>
                     )}
-               
-                {/* <FAB
-                    style={{ width: "80%" }}
-                    color="#012839"
-                    size="small"
-                    title="Add new workout"
-                    onPress={() => navigation.navigate('Workout Journal')}
-                /> */}
                 </ImageBackground>
             </View>
     );

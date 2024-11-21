@@ -13,7 +13,6 @@ export default function Tracker() {
 
     const dateToday = new Date().toLocaleDateString();
 
-
     const [data, setData] = useState({
         weight: 0.0,
         date: dateToday
@@ -26,6 +25,7 @@ export default function Tracker() {
         onValue(weightRef, (snapshot) => {
             const d = snapshot.val();
             // tarkista tuleeko dataa, muuten pidä tyhjä taulukko
+            // muuten diagrammi ei toimi
             if (d) {
                 const keys = Object.keys(d);
                 const weightWithKeys = Object.values(d).map((obj, index) => {
@@ -99,13 +99,6 @@ export default function Tracker() {
                 <Text>{item.date}</Text>
                 <Text>{item.weight} kg</Text>
                 <View style={{flexDirection: 'row'}}>
-                    {/* <Button 
-                        title='Edit'
-                        color='#464E12'
-                        size="sm"
-                        onPress={() => editWeight(item)}
-                        buttonStyle={{  marginTop: 10, borderRadius: 20, width: '55%' }}
-                    /> */}
                     <Button 
                         title='Delete'
                         color='red'
@@ -116,8 +109,6 @@ export default function Tracker() {
                 </View>
             </View>
             ))}
-
-            
 
             {weightData.length > 0 && (
                 <Button 

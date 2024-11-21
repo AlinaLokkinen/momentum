@@ -8,7 +8,7 @@ export default function WeightDiagram({ weightData }) {
         return data.date;
     })
     
-    // päivämäärien järjestäminen päivämäärinä ei onnistunut, 
+    // päivämäärien järjestäminen päivämäärinä ei onnistunut 
     // järjestetään ne String -muodossa
     // https://stackoverflow.com/questions/30691066/sort-a-string-date-array
     const sortStringDates = dates.sort(function(a,b) {
@@ -25,8 +25,6 @@ export default function WeightDiagram({ weightData }) {
     const shortenedStringDates = sortStringDates.map(item => {
         return item.slice(0, 6);
     })
-
-    console.log('Sortstringdates: ' + sortStringDates);
 
     const dataPoints = weightData.map(data => data.weight);
 
@@ -52,13 +50,13 @@ export default function WeightDiagram({ weightData }) {
 
     return (
         <View style={{margin: 15, alignItems: 'center'}}>
-    
-                    <LineChart 
-                    data={data}
-                    width={390}
-                    height={220}
-                    chartConfig={chartConfig}
-                />
+
+            <LineChart 
+                data={data}
+                width={390}
+                height={220}
+                chartConfig={chartConfig}
+            />
               
         </View>
     )
