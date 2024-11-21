@@ -7,7 +7,6 @@ import Exercises from './Screens/Exercises';
 import WorkoutJournal from './Screens/WorkoutJournal';
 import Tracker from './Screens/Tracker';
 import { NavigationContainer } from '@react-navigation/native';
-import CameraForWorkouts from './Screens/CameraForWorkouts';
 
 
 const Drawer = createDrawerNavigator();
@@ -31,9 +30,7 @@ export default function App() {
               iconName = 'book-outline';
             } else if (route.name === 'Tracker') {
               iconName = 'scale-outline';
-            } else if (route.name === 'Camera') {
-              iconName = 'camera-outline'
-            }
+            } 
 
             return <Ionicons name={iconName} size={size} color={color} />;
           }
@@ -43,8 +40,7 @@ export default function App() {
           <Drawer.Screen name='Exercises' component={Exercises} />
           <Drawer.Screen name='Workout Journal' component={WorkoutJournal} />
           <Drawer.Screen name='Tracker' component={Tracker} />
-          <Drawer.Screen name='Camera' component={CameraForWorkouts} />
-
+          
         </Drawer.Navigator>
       </NavigationContainer>
 
